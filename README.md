@@ -40,6 +40,10 @@ I assumed the answer was **no** to make the coding easier, but it would make for
 
 Why "bacchus"? I see neither grape/wine shipments nor locations.
 
+_Thank you_ for the supplied scaffolding. One of the biggest timesinks on takehome stuff like this is hours
+spent learning/installing/configuring the desired scaffolding, which doesn't really test coding ability
+but `google->stackoverflow->reading` capability. A useful skill, but not the same as efficient algos, schema definition, etc.
+
 
 ## Issues
 
