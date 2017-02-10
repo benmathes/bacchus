@@ -2,9 +2,9 @@
 ## Requirements
 
 - _Convert the list of port calls into a list of possible voyages between ports_
-  - Done [in loopback, in the controller](https://github.com/benmathes/bacchus/blob/master/common/models/portCall.js#L5)
+  - Done [in loopback, in the controller](https://github.com/benmathes/bacchus/blob/master/common/models/portCall.js#L7)
 - _Provide an interface for listing all possible voyages between two dates, showing the port pairs and the vessel_
-  - Done [in loopback, in the controller](https://github.com/benmathes/bacchus/blob/master/common/models/portCall.js#L5)
+  - Done [in loopback, in the controller](https://github.com/benmathes/bacchus/blob/master/common/models/portCall.js#L7)
 - _Add appropriate unit tests_
   - Some [basic spec tests](https://github.com/benmathes/bacchus/blob/master/test/portCall.js)
 - _Create an npm run script inside package.json that uses supervisor to reload/rerun the code as you edit it._
@@ -14,7 +14,7 @@
 
 ## Ambiguities/Questions
 
-##### Moving containers between ships
+#### Moving containers between ships
 
 If the USS Horcrux goes HKHKG->SGSIN->LAX, and the USS Dementor goes SGSIN->USOAK,
 and the two ships overlap in SGSIN, is there a route between HKHKG and OAK? Containers would need to change ships.
