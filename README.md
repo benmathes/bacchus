@@ -1,61 +1,58 @@
-## Haven Engineering Applicant Exercise
 
-## The Mini Project
-**You can use this skeleton project as a starting point, or use another framework of your choice. The only requirement is it must be Javascript based**
+## Requirements
 
-Scenario:  We have several customers who are looking to book shipments with us.  They want to be able to enter a date range and find all of the voyages which are possible between those dates.  Unfortunately we only have a list of port calls - when vessels arrive and depart from each port.  Our goal is to take this list of port calls and generate all of the permutations so we can display voyages for our customers to select.
-
-Within this repository you can find a list of the port calls (portCalls.json) for the various vessels.  A port call contains the name of the vessel, a port and the dates the vessel arrives and departs from that port.  The port calls are grouped by a routeId.  
-
-From these port calls we can generate the list of voyages that are possible.  For example, in our data set the 'USS Harpoon' starts a route from Hong Kong (HKHKG), visit Singapore (SGSIN), Los Angeles (USLAX) and finishes in Oakland (USOAK).  The port calls would be listed as:
-
-HKHKG  
-SGSIN  
-USLAX  
-USOAK  
-
-If we were to display the possible voyages it would be as follows:
+- _Convert the list of port calls into a list of possible voyages between ports_
+  - Done [in loopback, in the controller](https://github.com/benmathes/bacchus/blob/master/common/models/portCall.js#L5)
+- _Provide an interface for listing all possible voyages between two dates, showing the port pairs and the vessel_
+  - Done [in loopback, in the controller](https://github.com/benmathes/bacchus/blob/master/common/models/portCall.js#L5)
+- _Add appropriate unit tests_
+  - Some [basic spec tests](https://github.com/benmathes/bacchus/blob/master/test/portCall.js)
+- _Create an npm run script inside package.json that uses supervisor to reload/rerun the code as you edit it._
+  - [in this commit](https://github.com/benmathes/bacchus/commit/79186e85cf214b15fdf27944ada3dcf93b4eb728)
 
 
-HKHKG to SGSIN  
-HKHKG to USLAX  
-HKHKG to USOAK  
-SGSIN to USLAX  
-SGSIN to USOAK  
-USLAX to USOAK
 
-As a visualization these are the port calls and all of the voyages that can be generated from them:
+## Ambiguities/Questions
 
-![image](Permutations.png)
+##### Moving containers between ships
 
-#### Requirements
+If the USS Horcrux goes HKHKG->SGSIN->LAX, and the USS Dementor goes SGSIN->USOAK,
+and the two ships overlap in SGSIN, is there a route between HKHKG and OAK? Containers would need to change ships.
 
-- Convert the list of port calls into a list of possible voyages between ports
-- Provide an interface for listing all possible voyages between two dates, showing the port pairs and the vessel
-- You are free to use the provided skeleton app or write your own.
-
-> Do not hesitate to ask questions about how this could/should be set up! This is not a strict quiz, it is a starting point for collaboration.
-
-#### Skeleton Overview
-The skeleton provided here is a barebones [Strongloop/Loopback](https://docs.strongloop.com/display/public/LB/Getting+started+with+LoopBack) application. To help get you started we have provided boilerplate to:
-
-- Initialize / load the data from the portCall.js file
-- Provide a single stubbed API endpoint that can be modified to generate the list of voyages from the port calls
-- Scaffolding for the UI layer via Angular and the loopback Angular SDK
-- Date pickers for selecting the date range we want to display and a call to the API with those dates
-
-## Getting Started
-- The [Create a Simple API](https://docs.strongloop.com/display/public/LB/Create+a+simple+API) tutorial for Strongloop is a great starting point, along with [Installing Strongloop](https://docs.strongloop.com/display/public/LB/Installing+StrongLoop) and [Loopback Core Concepts](https://docs.strongloop.com/display/public/LB/LoopBack+core+concepts).
-- Install [NodeJS](https://nodejs.org) on your dev machine, and make sure [npm](https://www.npmjs.com/) is also installed (it should come with most distributions of node).
-- Clone this repository.
-- Once cloned, install the application dependencies using `npm install` in the root of the project.
-- Once installed, start the application with `npm start` - this will regenerate the loopback Angular SDK and start the server.
-- Extend the stubbed remote methods inside [common/models/portCalls.js](https://github.com/HavenInc/bacchus/blob/master/common/models/portCall.js) to return the expected voyages.
-- You can use the [API Explorer http://0.0.0.0:3000/explorer](http://0.0.0.0:3000/explorer) to test your new methods while in development.
-- Document tradeoffs/shortcuts in the interest of time; this exercise should not take more than 2-3 hours for basic functionality.
+I assumed the answer was **no** to make the coding easier, but it would make for a fun extra-credit section.
 
 
-## Bonus Options
-- Add appropriate unit tests
-- Create an npm run script inside package.json that uses supervisor to reload/rerun the code as you edit it.
-- What would be an interesting way to present the app to the engineering team?
+
+## Next Steps:
+
+* persist the generated routes.
+  * I'd set up a CPR (collect->process->reconcile) pipeline. Don't know loopback framework well enough to make time investment for homework assignment worth it. Happy to talk in person.
+* To store the routes, Use my favorite pet algorithm: [Union-Find](http://www.geeksforgeeks.org/union-find-algorithm-set-2-union-by-rank/), where:
+  * portCalls are items in the sets.
+  * routes are compressed paths, i.e. start/end points in a shipping route.
+  * _however_: The algo would have to be tweaked, as paths are date/time dependent.
+  * A less-clever (which is good!) solution is just storing all the routes, but the # of routes grows geometrically w number of port calls, **especially** if we allow containers to swap ships.
+* anywhere you see a `git grep -i TODO` (I would link to the github search results, but you can't search forked repos)
+
+
+
+## Commentary
+
+Why "bacchus"? I see neither grape/wine shipments nor locations.
+
+
+## Issues
+
+During `npm install`, the angular version was ambiguously required:
+```
+Unable to find a suitable version for angular, please choose one by typing one of the numbers below:
+    1) angular#1.3.20 which resolved to 1.3.20 and is required by angular-resource#1.3.20
+    2) angular#^1.4.0 which resolved to 1.6.2 and is required by bacchus
+    3) angular#^1.0.8 which resolved to 1.6.2 and is required by angular-ui-router#0.3.2
+    4) angular#>=1.4.0 which resolved to 1.6.2 and is required by angular-bootstrap#2.1.4
+
+Prefix the choice with ! to persist it to bower.json
+
+? Answer
+```
+I went with `angular 1.6.2`. Hopefully this does not effect anything.

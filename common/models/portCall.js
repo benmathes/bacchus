@@ -21,7 +21,7 @@ module.exports = function(PortCall) {
     const query = {
       where: { and: andClauses },
       // ensures we iterate over the calls in order.
-      // TODO: how does loopback index?
+      // TODO: how does loopback index? these columns/attrs should be indexed?
       order: ['routeId DESC', 'eta ASC' ]
     };
 
