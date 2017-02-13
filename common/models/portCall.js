@@ -27,8 +27,7 @@ module.exports = function(PortCall) {
 
     PortCall.find(query)
       .then(calls => {
-        // TODO: timezones? Appears to be read in GMT,
-        // output in local
+        // TODO: timezones? Appears to be read in GMT, output in local. _should be ok_
         var routeIdToStarts = [];
         var routes = [];
         _.each(calls, (endCall, i) => {
@@ -62,7 +61,7 @@ module.exports = function(PortCall) {
         });
 
         routes = _.sortBy(routes, (route) => {
-          return [parseInt(route.startCallId, 10), parseInt(route.endCallId)];
+          return route.etd;
         });
         return cb(null, routes);
       })

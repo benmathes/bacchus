@@ -6,7 +6,7 @@
 
   <form class="form-inline">
     <div class="form-group">
-      <label>Departure Port</label>
+      <label>Departure:</label>
       <input
         type="text"
         class="form-control"
@@ -18,7 +18,7 @@
     </div>
 
     <div class="form-group">
-      <label>Arrival port</label>
+      <label>Arrival:</label>
       <input
         type="text"
         class="form-control"
@@ -43,18 +43,20 @@
          ng-show="ctrl.voyages.length">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Port</th>
-        <th>ETA</th>
+        <th>Departing</th>
+        <th>Arriving</th>
+        <th>Vessel</th>
         <th>ETD</th>
+        <th>ETA</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="voyage in ctrl.voyages">
-        <th>{{ voyage.id }}</th>
-        <td>{{ voyage.port }}</td>
-        <td>{{ (voyage.eta | date) || 'N/A' }}</td>
+        <th>{{ voyage.startPort }}</th>
+        <th>{{ voyage.endPort }}</th>
+        <th>{{ voyage.vessel }}</th>
         <td>{{ (voyage.etd | date) || 'N/A' }}</td>
+        <td>{{ (voyage.eta | date) || 'N/A' }}</td>
       </tr>
     </tbody>
   </table>
